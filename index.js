@@ -4,14 +4,14 @@ const fs = require('fs');
 const { log } = require('console');
 const app = express()
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // setting parser 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 // setting view engine + static folder
 app.set("view engine", "ejs")
-app.use(express.static(path.join(__dirname, "public")))
+app.use(express.static(path.join(__dirname, "../public")))
 
 // CRUD : Create | Read | Update or Edit | Delete or remove
 
@@ -27,7 +27,6 @@ app.post('/create',function(req, res){
 // Reading Files
 app.get('/',(req, res)=>{
     fs.readdir(`./files`,function (err, files){
-        console.log(files)
            res.render('index', {files:files})
     })
 })
@@ -47,15 +46,12 @@ app.post('/update',function(req, res){
 
 // Delete Files 
 app.get('/delete/:filename',function(req, res){
-       console.log(`./file/${req.params.filename}`)
        fs.unlink(`./files/${req.params.filename}`,function(err){
         res.redirect('/')
        })
 })
                                   
-
 // Setting up server 
 app.listen(PORT, function(){
     console.log("🚀Server is running on http://localhost:3000")
 })
-
